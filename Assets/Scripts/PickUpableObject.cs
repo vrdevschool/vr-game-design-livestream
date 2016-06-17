@@ -5,6 +5,7 @@ public class PickUpableObject : MonoBehaviour
 {
     public bool b_PickedUp = false;
 
+    public bool b_CanExpire = true;
     public float f_TimerEnd = 15f;
     public float f_CurrentTimer = 0f;
 
@@ -17,17 +18,20 @@ public class PickUpableObject : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if (b_PickedUp)
+        if (b_CanExpire)
         {
-            f_CurrentTimer = 0f;
-        }
-        else
-        {
-            f_CurrentTimer = f_CurrentTimer + Time.deltaTime;
-
-            if (f_CurrentTimer >= f_TimerEnd)
+            if (b_PickedUp)
             {
-                Destroy(gameObject);
+                f_CurrentTimer = 0f;
+            }
+            else
+            {
+                f_CurrentTimer = f_CurrentTimer + Time.deltaTime;
+
+                if (f_CurrentTimer >= f_TimerEnd)
+                {
+                    Destroy(gameObject);
+                }
             }
         }
 	}
