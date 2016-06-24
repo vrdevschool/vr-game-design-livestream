@@ -5,6 +5,10 @@ public class PickUpableObject : MonoBehaviour
 {
     public bool b_PickedUp = false;
 
+    public NavMeshAgent agent;
+
+    public GameObject go_TargetLocation;
+
     public bool b_CanExpire = true;
     public float f_TimerEnd = 15f;
     public float f_CurrentTimer = 0f;
@@ -12,20 +16,33 @@ public class PickUpableObject : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-	    
+        
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
+        if (b_PickedUp)
+        {
+            agent.Stop();
+        }
+        else
+        {
+            agent.Resume();
+        }
+
+
         if (b_CanExpire)
         {
             if (b_PickedUp)
             {
+
                 f_CurrentTimer = 0f;
             }
             else
             {
+                
+
                 f_CurrentTimer = f_CurrentTimer + Time.deltaTime;
 
                 if (f_CurrentTimer >= f_TimerEnd)
