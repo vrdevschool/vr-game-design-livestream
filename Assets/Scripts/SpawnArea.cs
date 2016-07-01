@@ -14,7 +14,7 @@ public class SpawnArea : MonoBehaviour
 
         if (tempPickUpObject)
         {
-            tempPickUpObject.agent.destination = go_TargetTower.transform.position;
+            tempPickUpObject.TargetObject(go_TargetTower);
         }
     }
 }
