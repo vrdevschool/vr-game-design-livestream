@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PickUpableObject : TargetableObject
 {
@@ -16,6 +17,8 @@ public class PickUpableObject : TargetableObject
     public bool b_CanExpire = true;
     public float f_TimerEnd = 15f;
     public float f_CurrentTimer = 0f;
+
+    public List<TargetableObject> l_Targets;
 
     // Use this for initialization
     void Start ()
@@ -35,10 +38,16 @@ public class PickUpableObject : TargetableObject
         }
     }
 
-    public void TargetObject(GameObject go_Target)
+    public void TargetObject(List<TargetableObject> l_TowerTargets)
     {
-        go_TargetLocation = go_Target;
-        agent.destination = go_Target.transform.position;
+        l_Targets = l_TowerTargets;
+
+        go_TargetLocation = l_Targets[l_Targets.Count - 1].gameObject;
+    }
+
+    public void UpdateCurrentTarget()
+    {
+        agent.SetDestination(l_Targets[l_Targets.Count - 1].transform.position);
     }
 
     // Update is called once per frame
@@ -54,6 +63,8 @@ public class PickUpableObject : TargetableObject
         }
 
 
+        Debug.Log("distance: " + Vector3.Distance(agent.destination, transform.position));
+
         if (Vector3.Distance(agent.destination, transform.position) <= agent.stoppingDistance)
         {
 
@@ -63,9 +74,23 @@ public class PickUpableObject : TargetableObject
             {
                 f_currentCoolDown = 0f;
 
-                Debug.Log(go_TargetLocation);
+                // Debug.Log(go_TargetLocation);
+                
+                if(l_Targets[l_Targets.Count - 1] == null)
+                {
+                    l_Targets.RemoveAt(l_Targets.Count - 1);
+                    go_TargetLocation = l_Targets[l_Targets.Count - 1].gameObject;
+                    UpdateCurrentTarget();
+                }
 
-                Attack(go_TargetLocation.GetComponent<TargetableObject>());
+                if (go_TargetLocation != null)
+                {
+                    Attack(go_TargetLocation.GetComponent<TargetableObject>());
+                }
+                else // If we dont have a target what do we do?
+                {
+                    Debug.Log("Yo your target is not there dude");
+                }
             }
         }
         else

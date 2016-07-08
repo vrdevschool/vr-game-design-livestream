@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SpawnArea : MonoBehaviour
 {
 
-    public GameObject go_TargetTower;
+    public List<TargetableObject> l_TargetTowers;
 
 
     private PickUpableObject tempPickUpObject;
@@ -14,7 +15,8 @@ public class SpawnArea : MonoBehaviour
 
         if (tempPickUpObject)
         {
-            tempPickUpObject.TargetObject(go_TargetTower);
+            tempPickUpObject.TargetObject(l_TargetTowers);
+            tempPickUpObject.UpdateCurrentTarget();
         }
     }
 }
