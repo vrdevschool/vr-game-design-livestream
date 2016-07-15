@@ -21,9 +21,9 @@ public class TowerScript : TargetableObject
 
         if (slider_HealthBar != null)
         {
-            Debug.Log((float)i_Health / 100f);
+            //Debug.Log((float)i_Health / 100f);
 
-            slider_HealthBar.value = (float)i_Health / 100f;
+            slider_HealthBar.value = (float)i_Health / i_MaxHealth;
 
             if (b_HealthBarIsFacing)
             {

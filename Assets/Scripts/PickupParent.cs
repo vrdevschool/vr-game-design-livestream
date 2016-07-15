@@ -5,6 +5,8 @@ using System;
 [RequireComponent(typeof(SteamVR_TrackedObject))]
 public class PickupParent : MonoBehaviour {
 
+    public Main main;
+
     SteamVR_TrackedObject trackedObj;
     SteamVR_Controller.Device device;
     public GameObject prefabSphere;
@@ -52,7 +54,9 @@ public class PickupParent : MonoBehaviour {
         if (device.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad))
         {
             Debug.Log("You activated PressUp on the Touchpad");
-            GameObject.Instantiate(prefabSphere);
+            main.l_go_PlayerUnits.Add(GameObject.Instantiate(prefabSphere).GetComponent<PickUpableObject>());
+            main.l_go_PlayerUnits[main.l_go_PlayerUnits.Count - 1].main = main;
+
             //sphere.transform.position = Vector3.zero;
             //sphere.GetComponent<Rigidbody>().velocity = Vector3.zero;
             //sphere.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
